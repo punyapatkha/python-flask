@@ -1,19 +1,44 @@
 import os
 from flask import Flask
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+import datetime
+
+
 
 app = Flask(__name__)
+
+json_key = os.environ.get('sakey', None)
+service_account_info = json.loads(json_key)
+# service_account_info = a
+# build credentials with the service account dict
+creds = firebase_admin.credentials.Certificate(service_account_info)
+# initialize firebase admin
+firebase_app = firebase_admin.initialize_app(creds)
+db = firestore.client()
+
 
 @app.route('/')
 def hello():
     return 'Hello World!'
 
+# test get environment var
 @app.route('/2')
 def hello2():
     is_prod = os.environ.get('testkey', None)
     return 'Hello World!'+str(is_prod)+'_end'
 
-
-
+# test firestore app 
+@app.route('/3')
+def hello3():
+    doc_ref = db.collection(u'users').document(str(datetime.datetime.now()))
+    doc_ref.set({
+#         u'first': u'puyo',
+#         u'last': u'Pablo4',
+        u'born': 123
+    })
+    return 'upload done!'
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
