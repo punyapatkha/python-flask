@@ -48,7 +48,7 @@ def webhook():
         print("Data received from Webhook is: ", request.json)
         return "Webhook received!"
     
-@app.route('/webhook', methods=['GET'])
+@app.route('/webhook2', methods=['GET'])
 def webhook():
     if request.method == 'GET':
         doc_ref = db.collection(u'webhookget').document(str(datetime.datetime.now()))
