@@ -7,6 +7,14 @@ app = Flask(__name__)
 def hello():
     return 'Hello World!'
 
+@app.route('/2')
+def hello2():
+    is_prod = os.environ.get('testkey', None)
+    return 'Hello World!'+str(is_prod)+'_end'
+
+
+
+
 @app.route('/webhook', methods=['POST'])
 def webhook():
     if request.method == 'POST':
