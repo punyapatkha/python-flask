@@ -43,9 +43,20 @@ def hello3():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     if request.method == 'POST':
+        doc_ref = db.collection(u'webhookpost').document(str(datetime.datetime.now()))
+        doc_ref.set(request.json)
         print("Data received from Webhook is: ", request.json)
         return "Webhook received!"
     
+@app.route('/webhook', methods=['GET'])
+def webhook():
+    if request.method == 'GET':
+        doc_ref = db.collection(u'webhookget').document(str(datetime.datetime.now()))
+        doc_ref.set({
+        u'born': 123
+    })
+        print("Data received from Webhook is: ")
+        return "Webhook received!"
     
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
