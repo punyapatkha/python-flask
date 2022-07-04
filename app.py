@@ -49,7 +49,7 @@ def webhook():
         return "Webhook received!"
     
 @app.route('/webhook2', methods=['GET'])
-def webhook():
+def webhook2():
     if request.method == 'GET':
         doc_ref = db.collection(u'webhookget').document(str(datetime.datetime.now()))
         doc_ref.set({
